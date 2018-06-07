@@ -1,4 +1,4 @@
-package lab4.model;
+package lab.model;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

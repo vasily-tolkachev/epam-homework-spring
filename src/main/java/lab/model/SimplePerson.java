@@ -1,4 +1,4 @@
-package lab4.model;
+package lab.model;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;

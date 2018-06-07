@@ -1,4 +1,4 @@
-package lab4.model;
+package lab.model;
 
 public interface Contact {
     String getValue();

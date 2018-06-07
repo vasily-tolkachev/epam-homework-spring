@@ -1,4 +1,4 @@
-package lab4.model;
+package lab.model;
 
 public interface Country {
     String getName();

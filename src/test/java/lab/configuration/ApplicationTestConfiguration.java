@@ -1,14 +1,14 @@
-package lab4.configuration;
+package lab.configuration;
 
-import lab4.model.Contact;
-import lab4.model.SimpleContact;
+import lab.model.Contact;
+import lab.model.SimpleContact;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Arrays;
 import java.util.List;
 
-@ComponentScan("lab4.model")
+@ComponentScan("lab.model")
 public class ApplicationTestConfiguration {
 
     @Bean
