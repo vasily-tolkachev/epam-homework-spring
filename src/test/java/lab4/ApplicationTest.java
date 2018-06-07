@@ -1,10 +1,10 @@
-package lab;
+package lab4;
 
-import lab.configuration.ApplicationTestConfiguration;
-import lab.model.Person;
-import lab.model.SimpleContact;
-import lab.model.SimpleCountry;
-import lab.model.SimplePerson;
+import lab4.configuration.ApplicationTestConfiguration;
+import lab4.model.Person;
+import lab4.model.SimpleContact;
+import lab4.model.SimpleCountry;
+import lab4.model.SimplePerson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;

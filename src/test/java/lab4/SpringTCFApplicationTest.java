@@ -1,7 +1,7 @@
-package lab;
+package lab4;
 
-import lab.configuration.ApplicationTestConfiguration;
-import lab.model.Person;
+import lab4.configuration.ApplicationTestConfiguration;
+import lab4.model.Person;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;

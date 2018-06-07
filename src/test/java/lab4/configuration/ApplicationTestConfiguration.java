@@ -1,14 +1,16 @@
-package lab.configuration;
+package lab4.configuration;
 
-import lab.model.Contact;
-import lab.model.SimpleContact;
+import lab4.model.Contact;
+import lab4.model.SimpleContact;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.Arrays;
 import java.util.List;
 
-@ComponentScan("lab.model")
+@ComponentScan("lab4.model, lab5")
+@EnableAspectJAutoProxy
 public class ApplicationTestConfiguration {
 
     @Bean
