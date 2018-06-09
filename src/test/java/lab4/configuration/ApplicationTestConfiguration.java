@@ -9,7 +9,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import java.util.Arrays;
 import java.util.List;
 
-@ComponentScan("lab4.model, lab5")
+@ComponentScan("lab4")
 @EnableAspectJAutoProxy
 public class ApplicationTestConfiguration {
 
