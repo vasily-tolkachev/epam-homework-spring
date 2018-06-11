@@ -30,11 +30,13 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
             {"Switzerland", "CH"},
             {"United Kingdom", "GB"},
             {"United States", "US"},
-            {"Burma", "MM"}
+            {"Burma", "MM"},
+            {"Argentina", "AR"}
     };
 
     static String LOAD_COUNTRIES_SQL = "insert into country (name, code_name) values ('%s', '%s')";
     static String GET_ALL_COUNTRIES_SQL = "select * from country";
+    static String GET_COUNTRY_BY_NAME_PATTERN_SQL = "select * from country where name like :name";
     static String GET_COUNTRY_BY_NAME_SQL = "select * from country where name = :name";
     static String GET_COUNTRY_BY_CODE_NAME_SQL = "select * from country where code_name = :codeName";
     static String UPDATE_COUNTRY_NAME_SQL = "update country set name = :name where code_name = :codeName";
@@ -63,28 +65,32 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
 
     @Override
     public Country getCountryByName(String name) {
-        return getCountryByStringParameter("name", name, GET_COUNTRY_BY_NAME_SQL);
+        return getCountryByStringParameter("name", name, GET_COUNTRY_BY_NAME_SQL).get(0);
     }
 
     public Country getCountryByCodeName(String codeName) {
-        return getCountryByStringParameter("codeName", codeName, GET_COUNTRY_BY_CODE_NAME_SQL);
+        return getCountryByStringParameter("codeName", codeName, GET_COUNTRY_BY_CODE_NAME_SQL).get(0);
     }
 
-    private Country getCountryByStringParameter(String parameterName, String parameterValue, String sql) {
-        Country country = getNamedParameterJdbcTemplate().queryForObject(
+    private List<Country> getCountryByStringParameter(String parameterName, String parameterValue, String sql) {
+        List<Country> countryList = getNamedParameterJdbcTemplate().query(
                 sql,
                 new MapSqlParameterSource(parameterName, parameterValue),
                 COUNTRY_ROW_MAPPER
         );
-        if (country == null) {
+        if (countryList.isEmpty()) {
             throw new CountryNotFoundException();
         }
-        return country;
+        return countryList;
     }
 
     public void updateCountryName(String codeName, String newName) {
         getNamedParameterJdbcTemplate().update(
                 UPDATE_COUNTRY_NAME_SQL,
                 Utils.mapOf("codeName", codeName, "name", newName));
+    }
+
+    public List<Country> getCountryListStartsWith(String startFragment) {
+        return getCountryByStringParameter("name", startFragment + "%", GET_COUNTRY_BY_NAME_PATTERN_SQL);
     }
 }

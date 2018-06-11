@@ -36,6 +36,9 @@ public class JdbcTest {
     List<Country> countryList = new ArrayList<>();
 
     @NonFinal
+    List<Country> countryListStartsWithA = new ArrayList<>();
+
+    @NonFinal
     Country countryWithChangedName = new SimpleCountry(13, "Myanmar", "MM");
 
     @BeforeEach
@@ -49,6 +52,9 @@ public class JdbcTest {
             String[] countryInitData = JdbcCountryDao.COUNTRY_INIT_DATA[i];
             Country country = new SimpleCountry(i + 1, countryInitData[0], countryInitData[1]);
             countryList.add(country);
+            if (country.getName().startsWith("A")) {
+                countryListStartsWithA.add(country);
+            }
         }
     }
 
@@ -88,5 +94,17 @@ public class JdbcTest {
     void testUpdateCountryName() {
         jdbcCountryDao.updateCountryName("MM", "Myanmar");
         assertEquals(jdbcCountryDao.getCountryByCodeName("MM"), countryWithChangedName);
+    }
+
+    @Test
+    @DisplayName("Getting country list starts with A")
+    @DirtiesContext
+    void testCountryListStartsWithA() {
+        List<Country> resultList = jdbcCountryDao.getCountryListStartsWith("A");
+        assertNotNull(countryList);
+        assertEquals(countryListStartsWithA.size(), resultList.size());
+        for (int i = 0; i < countryListStartsWithA.size(); i++) {
+            assertEquals(countryListStartsWithA.get(i), resultList.get(i));
+        }
     }
 }
