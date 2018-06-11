@@ -30,6 +30,9 @@ public class JdbcTest {
     JdbcCountryDao jdbcCountryDao;
 
     @NonFinal
+    Country australia = new SimpleCountry(1, "Australia", "AU");
+
+    @NonFinal
     List<Country> countryList = new ArrayList<>();
 
     @BeforeEach
@@ -56,5 +59,14 @@ public class JdbcTest {
         assertEquals(countryList.size(), resultList.size());
         for (int i = 0; i < countryList.size(); i++)
             assertEquals(countryList.get(i), resultList.get(i));
+    }
+
+    @Test
+    @DisplayName("Getting country by name")
+    @DirtiesContext
+    void testCountryChange() {
+        Country country = jdbcCountryDao.getCountryByName("Australia");
+        assertNotNull(country);
+        assertEquals(country, australia);
     }
 }

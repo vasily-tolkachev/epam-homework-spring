@@ -32,6 +32,7 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
 
     static String LOAD_COUNTRIES_SQL = "insert into country (name, code_name) values ('%s', '%s')";
     static String GET_ALL_COUNTRIES_SQL = "select * from country";
+    static String GET_COUNTRY_BY_NAME_SQL = "select * from country where name = '%s'";
 
     static RowMapper<Country> COUNTRY_ROW_MAPPER = (resultSet, __) -> new SimpleCountry(
             resultSet.getInt("id"),
@@ -57,6 +58,13 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
 
     @Override
     public Country getCountryByName(String name) {
-        return null;
+        List<Country> countryList = getJdbcTemplate().query(
+                String.format(GET_COUNTRY_BY_NAME_SQL, name),
+                COUNTRY_ROW_MAPPER);
+
+        if (countryList.isEmpty()) {
+            throw new CountryNotFoundException();
+        }
+        return countryList.get(0);
     }
 }
