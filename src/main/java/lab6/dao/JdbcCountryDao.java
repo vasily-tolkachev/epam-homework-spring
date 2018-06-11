@@ -3,9 +3,11 @@ package lab6.dao;
 import lab4.model.Country;
 import lab4.model.SimpleCountry;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -33,7 +35,7 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
             {"Argentina", "AR"}
     };
 
-    static String LOAD_COUNTRIES_SQL = "insert into country (name, code_name) values ('%s', '%s')";
+    static String ADD_COUNTRY_LIST_SQL = "insert into country (name, code_name) values (:name, :codeName)";
     static String GET_ALL_COUNTRIES_SQL = "select * from country";
     static String GET_COUNTRY_BY_NAME_PATTERN_SQL = "select * from country where name like :name";
     static String GET_COUNTRY_BY_NAME_SQL = "select * from country where name = :name";
@@ -52,9 +54,21 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
 
     public void loadCountries() {
         for (String[] countryData : COUNTRY_INIT_DATA) {
-            getJdbcTemplate().execute(
-                    String.format(LOAD_COUNTRIES_SQL, countryData[0], countryData[1]));
+            addCountry(SimpleCountry.builder().name(countryData[0]).codeName(countryData[1]).build());
         }
+    }
+
+    public void addCountry(Country country) {
+        country.setId(addCountry(country.getName(), country.getCodeName()));
+    }
+
+    public long addCountry(String name, String codeName) {
+        val keyHolder = new GeneratedKeyHolder();
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+                .addValue("codeName", codeName)
+                .addValue("name", name);
+        getNamedParameterJdbcTemplate().update(ADD_COUNTRY_LIST_SQL, mapSqlParameterSource, keyHolder);
+        return keyHolder.getKey().longValue();
     }
 
     @Override
