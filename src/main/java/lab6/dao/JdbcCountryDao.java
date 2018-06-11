@@ -2,7 +2,6 @@ package lab6.dao;
 
 import lab4.model.Country;
 import lab4.model.SimpleCountry;
-import lab6.dao.utils.Utils;
 import lombok.experimental.FieldDefaults;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -85,9 +84,10 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
     }
 
     public void updateCountryName(String codeName, String newName) {
-        getNamedParameterJdbcTemplate().update(
-                UPDATE_COUNTRY_NAME_SQL,
-                Utils.mapOf("codeName", codeName, "name", newName));
+        MapSqlParameterSource mapSqlParameterSource = new MapSqlParameterSource()
+                .addValue("codeName", codeName)
+                .addValue("name", newName);
+        getNamedParameterJdbcTemplate().update(UPDATE_COUNTRY_NAME_SQL, mapSqlParameterSource);
     }
 
     public List<Country> getCountryListStartsWith(String startFragment) {
