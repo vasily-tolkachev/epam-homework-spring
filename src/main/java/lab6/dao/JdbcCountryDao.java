@@ -2,6 +2,7 @@ package lab6.dao;
 
 import lab4.model.Country;
 import lab4.model.SimpleCountry;
+import lab6.dao.utils.Utils;
 import lombok.experimental.FieldDefaults;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -28,13 +29,15 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
             {"Sweden", "SE"},
             {"Switzerland", "CH"},
             {"United Kingdom", "GB"},
-            {"United States", "US"}
+            {"United States", "US"},
+            {"Burma", "MM"}
     };
 
     static String LOAD_COUNTRIES_SQL = "insert into country (name, code_name) values ('%s', '%s')";
     static String GET_ALL_COUNTRIES_SQL = "select * from country";
     static String GET_COUNTRY_BY_NAME_SQL = "select * from country where name = :name";
     static String GET_COUNTRY_BY_CODE_NAME_SQL = "select * from country where code_name = :codeName";
+    static String UPDATE_COUNTRY_NAME_SQL = "update country set name = :name where code_name = :codeName";
 
     static RowMapper<Country> COUNTRY_ROW_MAPPER = (resultSet, __) -> new SimpleCountry(
             resultSet.getInt("id"),
@@ -68,7 +71,7 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
     }
 
     private Country getCountryByStringParameter(String parameterName, String parameterValue, String sql) {
-        Country country =  getNamedParameterJdbcTemplate().queryForObject(
+        Country country = getNamedParameterJdbcTemplate().queryForObject(
                 sql,
                 new MapSqlParameterSource(parameterName, parameterValue),
                 COUNTRY_ROW_MAPPER
@@ -77,5 +80,11 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
             throw new CountryNotFoundException();
         }
         return country;
+    }
+
+    public void updateCountryName(String codeName, String newName) {
+        getNamedParameterJdbcTemplate().update(
+                UPDATE_COUNTRY_NAME_SQL,
+                Utils.mapOf("codeName", codeName, "name", newName));
     }
 }

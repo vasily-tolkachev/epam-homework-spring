@@ -35,6 +35,9 @@ public class JdbcTest {
     @NonFinal
     List<Country> countryList = new ArrayList<>();
 
+    @NonFinal
+    Country countryWithChangedName = new SimpleCountry(13, "Myanmar", "MM");
+
     @BeforeEach
     void beforeEach() {
         jdbcCountryDao.loadCountries();
@@ -79,4 +82,11 @@ public class JdbcTest {
         assertEquals(country, australia);
     }
 
+    @Test
+    @DisplayName("Updating country name")
+    @DirtiesContext
+    void testUpdateCountryName() {
+        jdbcCountryDao.updateCountryName("MM", "Myanmar");
+        assertEquals(jdbcCountryDao.getCountryByCodeName("MM"), countryWithChangedName);
+    }
 }
