@@ -4,6 +4,7 @@ import lab4.model.Country;
 import lab4.model.SimpleCountry;
 import lombok.experimental.FieldDefaults;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +33,8 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
 
     static String LOAD_COUNTRIES_SQL = "insert into country (name, code_name) values ('%s', '%s')";
     static String GET_ALL_COUNTRIES_SQL = "select * from country";
-    static String GET_COUNTRY_BY_NAME_SQL = "select * from country where name = '%s'";
+    static String GET_COUNTRY_BY_NAME_SQL = "select * from country where name = :name";
+    static String GET_COUNTRY_BY_CODE_NAME_SQL = "select * from country where code_name = :codeName";
 
     static RowMapper<Country> COUNTRY_ROW_MAPPER = (resultSet, __) -> new SimpleCountry(
             resultSet.getInt("id"),
@@ -58,13 +60,22 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
 
     @Override
     public Country getCountryByName(String name) {
-        List<Country> countryList = getJdbcTemplate().query(
-                String.format(GET_COUNTRY_BY_NAME_SQL, name),
-                COUNTRY_ROW_MAPPER);
+        return getCountryByStringParameter("name", name, GET_COUNTRY_BY_NAME_SQL);
+    }
 
-        if (countryList.isEmpty()) {
+    public Country getCountryByCodeName(String codeName) {
+        return getCountryByStringParameter("codeName", codeName, GET_COUNTRY_BY_CODE_NAME_SQL);
+    }
+
+    private Country getCountryByStringParameter(String parameterName, String parameterValue, String sql) {
+        Country country =  getNamedParameterJdbcTemplate().queryForObject(
+                sql,
+                new MapSqlParameterSource(parameterName, parameterValue),
+                COUNTRY_ROW_MAPPER
+        );
+        if (country == null) {
             throw new CountryNotFoundException();
         }
-        return countryList.get(0);
+        return country;
     }
 }

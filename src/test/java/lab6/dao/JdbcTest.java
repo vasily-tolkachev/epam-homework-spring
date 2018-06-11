@@ -64,9 +64,19 @@ public class JdbcTest {
     @Test
     @DisplayName("Getting country by name")
     @DirtiesContext
-    void testCountryChange() {
+    void testGetCountryByName() {
         Country country = jdbcCountryDao.getCountryByName("Australia");
         assertNotNull(country);
         assertEquals(country, australia);
     }
+
+    @Test
+    @DisplayName("Getting country by code name")
+    @DirtiesContext
+    void testGetCountryByCodeName() {
+        Country country = jdbcCountryDao.getCountryByCodeName("AU");
+        assertNotNull(country);
+        assertEquals(country, australia);
+    }
+
 }
