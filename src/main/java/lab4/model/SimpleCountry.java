@@ -56,6 +56,9 @@ public class SimpleCountry implements Country {
         this.codeName = codeName;
     }
 
+    /* public SimpleCountry(String name, String codeName) {
+         this(0L, name, codeName);
+     }*/
     public static class SimpleCountryBuilder {
         private long id;
         private String name;

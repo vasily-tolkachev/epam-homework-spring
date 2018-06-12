@@ -31,6 +31,11 @@ dependencies {
             //Spring JDBC
             'org.springframework:spring-jdbc:+',
 
+            // ORM
+            'org.hibernate:hibernate-spatial:+',
+            'org.hibernate:hibernate-validator:+',
+            'org.springframework:spring-orm:+',
+
             'org.apache.logging.log4j:log4j-slf4j-impl:+',
             'io.vavr:vavr:+',
             'org.glassfish.jersey.containers:jersey-container-servlet:2.26-b03',
@@ -39,15 +44,13 @@ dependencies {
             'org.apache.tomcat:tomcat-websocket-api:+',
             'javax.xml.bind:jaxb-api:+'
 
-    // H2
-    testRuntime 'com.h2database:h2:+'
-
     testCompile 'org.junit.jupiter:junit-jupiter-params:+',
             'org.hamcrest:java-hamcrest:+',
             'org.mockito:mockito-all:+',
             'org.springframework:spring-test:+'
 
-    testRuntime 'org.junit.jupiter:junit-jupiter-engine:+'
+    testRuntime 'org.junit.jupiter:junit-jupiter-engine:+',
+            'com.h2database:h2:+'
 
     // To avoid compiler warnings about @API annotations in JUnit code
     testCompileOnly 'org.apiguardian:apiguardian-api:+'

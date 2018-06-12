@@ -1,5 +1,6 @@
 package lab5;
 
+import lombok.Cleanup;
 import lombok.SneakyThrows;
 import lombok.val;
 
@@ -8,16 +9,21 @@ import java.io.PrintStream;
 
 public interface TestUtils {
 
+    String LINE_SEPARATOR =
+            System.getProperty("line.separator");
+
     @SneakyThrows
     static String fromSystemOut(Runnable runnable) {
+
         PrintStream realOut = System.out;
-        try (val out = new ByteArrayOutputStream();
-             val printStream = new PrintStream(out)) {
-            System.setOut(printStream);
-            runnable.run();
-            return new String(out.toByteArray());
-        } finally {
-            System.setOut(realOut);
-        }
+
+        val out = new ByteArrayOutputStream();
+        @Cleanup val printStream = new PrintStream(out);
+
+        System.setOut(printStream);
+        runnable.run();
+        System.setOut(realOut);
+
+        return new String(out.toByteArray());
     }
 }

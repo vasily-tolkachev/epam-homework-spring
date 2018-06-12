@@ -58,6 +58,7 @@ public class JdbcCountryDao extends NamedParameterJdbcDaoSupport implements Coun
         }
     }
 
+    @Override
     public void addCountry(Country country) {
         country.setId(addCountry(country.getName(), country.getCodeName()));
     }
