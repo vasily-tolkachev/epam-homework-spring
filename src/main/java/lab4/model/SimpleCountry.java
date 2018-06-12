@@ -5,27 +5,8 @@ import org.springframework.stereotype.Component;
 @Component("country")
 public class SimpleCountry implements Country {
     private long id;
-    private String name;
-    private String codeName;
-
-    public SimpleCountry(String name, String codeName) {
-        this(0L, name, codeName);
-    }
-
-    public SimpleCountry setId(long id) {
-        this.id = id;
-        return this;
-    }
-
-    public SimpleCountry setName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    public SimpleCountry setCodeName(String codeName) {
-        this.codeName = codeName;
-        return this;
-    }
+    private final String name;
+    private final String codeName;
 
     public static SimpleCountry.SimpleCountryBuilder builder() {
         return new SimpleCountry.SimpleCountryBuilder();
@@ -39,21 +20,17 @@ public class SimpleCountry implements Country {
         return this.name;
     }
 
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getCodeName() {
         return this.codeName;
     }
 
     public String toString() {
-        return "SimpleCountry(id=" + this.getId() + ", name=" + this.getName() + ", codeName=" + this.getCodeName() + ")";
-    }
-
-    public SimpleCountry() {
-    }
-
-    public SimpleCountry(long id, String name, String codeName) {
-        this.id = id;
-        this.name = name;
-        this.codeName = codeName;
+        return "SimpleCountry(name=" + this.getName() + ", codeName=" + this.getCodeName() + ")";
     }
 
     @Override
@@ -63,15 +40,20 @@ public class SimpleCountry implements Country {
 
         SimpleCountry that = (SimpleCountry) o;
 
-        if (!name.equals(that.name)) return false;
-        return codeName.equals(that.codeName);
+        return (name != null ? name.equals(that.name) : that.name == null) && (codeName != null ? codeName.equals(that.codeName) : that.codeName == null);
     }
 
     @Override
     public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + codeName.hashCode();
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (codeName != null ? codeName.hashCode() : 0);
         return result;
+    }
+
+    public SimpleCountry(long id, String name, String codeName) {
+        this.id = id;
+        this.name = name;
+        this.codeName = codeName;
     }
 
     public static class SimpleCountryBuilder {
@@ -106,4 +88,3 @@ public class SimpleCountry implements Country {
         }
     }
 }
-
