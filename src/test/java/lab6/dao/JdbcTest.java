@@ -4,7 +4,7 @@ import lab4.model.Country;
 import lab4.model.SimpleCountry;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,30 +24,30 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = lab6.configuration.ApplicationTestConfiguration.class)
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
-@FieldDefaults(level = PRIVATE, makeFinal = true)
+@FieldDefaults(level = PRIVATE)
 public class JdbcTest {
 
-    JdbcCountryDao jdbcCountryDao;
+    final JdbcCountryDao jdbcCountryDao;
 
-    @NonFinal
     Country australia = new SimpleCountry(1, "Australia", "AU");
 
-    @NonFinal
-    List<Country> countryList = new ArrayList<>();
+    static List<Country> countryList = new ArrayList<>();
 
-    @NonFinal
-    List<Country> countryListStartsWithA = new ArrayList<>();
+    static List<Country> countryListStartsWithA = new ArrayList<>();
 
-    @NonFinal
-    Country countryWithChangedName = new SimpleCountry(13, "Myanmar", "MM");
+    static Country countryWithChangedName = new SimpleCountry(13, "Myanmar", "MM");
+
+    @BeforeAll
+    static void beforeAll() {
+        initCountryList();
+    }
 
     @BeforeEach
     void beforeEach() {
         jdbcCountryDao.loadCountries();
-        initCountryList();
     }
 
-    private void initCountryList() {
+    static private void initCountryList() {
         for (int i = 0; i < JdbcCountryDao.COUNTRY_INIT_DATA.length; i++) {
             String[] countryInitData = JdbcCountryDao.COUNTRY_INIT_DATA[i];
             Country country = new SimpleCountry(i + 1, countryInitData[0], countryInitData[1]);
