@@ -1,9 +1,20 @@
 package lab4.model;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
 @Component("country")
+@Table(name = "country")
 public class SimpleCountry implements Country {
+
+    @Id
+    @GeneratedValue
     private long id;
     private final String name;
     private final String codeName;
@@ -50,15 +61,21 @@ public class SimpleCountry implements Country {
         return result;
     }
 
+    @Autowired
     public SimpleCountry(long id, String name, String codeName) {
         this.id = id;
         this.name = name;
         this.codeName = codeName;
     }
 
-    /* public SimpleCountry(String name, String codeName) {
-         this(0L, name, codeName);
-     }*/
+    public SimpleCountry(String name, String codeName) {
+        this(0L, name, codeName);
+    }
+
+    public SimpleCountry() {
+        this(0L, "", "");
+    }
+
     public static class SimpleCountryBuilder {
         private long id;
         private String name;
