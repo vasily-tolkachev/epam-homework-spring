@@ -10,6 +10,9 @@ sourceCompatibility = 1.8
 repositories {
     mavenCentral()
     jcenter()
+    maven {
+        url 'https://repo.spring.io/libs-release'
+    }
 }
 
 configurations {
@@ -30,11 +33,16 @@ dependencies {
 
             //Spring JDBC
             'org.springframework:spring-jdbc:+',
+            'com.mchange:c3p0:+',
 
             // ORM
             'org.hibernate:hibernate-spatial:+',
             'org.hibernate:hibernate-validator:+',
             'org.springframework:spring-orm:+',
+
+            // Transaction
+            'org.springframework:spring-tx:+',
+            'io.swagger:swagger-jaxrs:+',
 
             'org.apache.logging.log4j:log4j-slf4j-impl:+',
             'io.vavr:vavr:+',
