@@ -18,7 +18,9 @@ import static lombok.AccessLevel.PRIVATE;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsIn.in;
 import static org.hamcrest.core.Is.is;
-
+/**
+ * Illustrates basic use of Hibernate as a JPA provider.
+ */
 @FieldDefaults(level = PRIVATE, makeFinal = true)
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = lab7.configuration.ApplicationTestConfiguration.class)
