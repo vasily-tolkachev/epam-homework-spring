@@ -2,7 +2,6 @@ package lab8;
 
 
 import lab4.model.Country;
-import lab6.dao.CountryDao;
 import lab6.dao.JdbcCountryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -36,42 +35,38 @@ public class CountryServiceImpl implements CountryService {
         }
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<Country> getAllCountriesRequired() {
         return this.jdbcCountryDao.getAllCountries();
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRES_NEW)
     public List<Country> getAllCountriesRequiresNew() {
         return this.jdbcCountryDao.getAllCountries();
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
+    @Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
     public List<Country> getAllCountriesSupports() {
         return this.jdbcCountryDao.getAllCountries();
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.NEVER)
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<Country> getAllCountriesNever() {
         return this.jdbcCountryDao.getAllCountries();
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
+    @Transactional(readOnly = true, propagation = Propagation.NEVER)
     public List<Country> getAllCountriesMandatory() {
         return this.jdbcCountryDao.getAllCountries();
     }
 
-    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
     public List<Country> getAllCountriesNotSupported() {
         return this.jdbcCountryDao.getAllCountries();
     }
 
     public List<Country> getAllCountries() {
         return this.jdbcCountryDao.getAllCountries();
-    }
-
-    public CountryDao getCountryDao() {
-        return this.jdbcCountryDao;
     }
 
     public void setCountryDao(JdbcCountryDao jdbcCountryDao) {

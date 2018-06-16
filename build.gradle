@@ -31,6 +31,9 @@ dependencies {
             //Spring JDBC
             'org.springframework:spring-jdbc:+',
 
+            // Transaction
+            'org.springframework:spring-tx:+',
+
             // ORM
             'org.hibernate:hibernate-spatial:+',
             'org.hibernate:hibernate-validator:+',
