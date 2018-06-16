@@ -3,16 +3,19 @@ package lab8;
 
 import lab4.model.Country;
 import lab6.dao.CountryDao;
+import lab6.dao.JdbcCountryDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
+@Transactional
 public class CountryServiceImpl implements CountryService {
     @Autowired
-    private CountryDao countryDao;
+    private JdbcCountryDao jdbcCountryDao;
 
     public CountryServiceImpl() {
     }
@@ -33,39 +36,45 @@ public class CountryServiceImpl implements CountryService {
         }
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public List<Country> getAllCountriesRequired() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRES_NEW)
     public List<Country> getAllCountriesRequiresNew() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.SUPPORTS)
     public List<Country> getAllCountriesSupports() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.NEVER)
     public List<Country> getAllCountriesNever() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.MANDATORY)
     public List<Country> getAllCountriesMandatory() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public List<Country> getAllCountriesNotSupported() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
     public List<Country> getAllCountries() {
-        return this.countryDao.getAllCountries();
+        return this.jdbcCountryDao.getAllCountries();
     }
 
     public CountryDao getCountryDao() {
-        return this.countryDao;
+        return this.jdbcCountryDao;
     }
 
-    public void setCountryDao(CountryDao countryDao) {
-        this.countryDao = countryDao;
+    public void setCountryDao(JdbcCountryDao jdbcCountryDao) {
+        this.jdbcCountryDao = jdbcCountryDao;
     }
 }
